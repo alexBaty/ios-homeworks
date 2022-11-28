@@ -1,15 +1,17 @@
 {
   "images" : [
     {
+      "filename" : "Foto.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "IMG_8006 — малый размер.png",
+      "filename" : "Foto@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "Foto@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
