@@ -25,12 +25,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     }
 
-//    func createPostViewController() -> UINavigationController {
-//        let postViewController = UINavigationController(rootViewController: PostViewController())
-//        return postViewController
-//
-//    }
-
     func createTabBar() -> UITabBarController {
         let tabBar = UITabBarController()
         tabBar.viewControllers = [createFeedViewController(), createProfileViewController()]
