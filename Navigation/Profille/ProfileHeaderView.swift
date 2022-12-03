@@ -63,14 +63,14 @@ class ProfileHeaderView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        getSuviews()
+        getSubviews()
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func getSuviews() {
+    private func getSubviews() {
         addSubview(labelName)
         addSubview(labelStatus)
         addSubview(buttonShowStatus)
