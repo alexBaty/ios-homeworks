@@ -38,7 +38,7 @@ class ProfileHeaderView: UIView {
 
     let image: UIImageView = {
         var image = UIImageView(frame: CGRect(x: 16, y: 114, width: 130, height: 130))
-        image.image = UIImage(named: "cat.png")
+        image.image = UIImage(named: "cat")
         image.layer.cornerRadius = image.frame.size.height/2
         image.layer.masksToBounds = true
         image.layer.borderWidth = 3
@@ -61,13 +61,22 @@ class ProfileHeaderView: UIView {
 
     private var statusText: String = ""
 
-    override func layoutSubviews() {
+    override init(frame: CGRect) {
+        super.init(frame: .zero)
+        getSuviews()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func getSuviews() {
         addSubview(labelName)
         addSubview(labelStatus)
         addSubview(buttonShowStatus)
         buttonShowStatus.addAction(UIAction(handler: {_ in
+            print(self.labelStatus.text ?? "")
             self.labelStatus.text = self.statusText
-            print(self.labelStatus.text!)
         }), for: .touchUpInside)
         addSubview(image)
         textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
@@ -75,6 +84,6 @@ class ProfileHeaderView: UIView {
     }
 
     @objc func statusTextChanged(_ textField: UITextField) {
-        statusText = textField.text!
+        statusText = textField.text ?? ""
     }
 }
