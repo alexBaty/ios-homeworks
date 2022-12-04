@@ -11,6 +11,8 @@ class FeedViewController: UIViewController {
 
     var button: UIButton!
 
+    var post = Post(title: "Post")
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .yellow
@@ -32,10 +34,8 @@ class FeedViewController: UIViewController {
         postViewController.navigationItem.title = post.title
         self.navigationController?.pushViewController(postViewController, animated: true)
     }
+}
 
-    struct Post {
-        var title: String
-    }
-
-    var post = Post(title: "Post")
+struct Post {
+    var title: String
 }

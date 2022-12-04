@@ -2,7 +2,7 @@
 //  ProfileViewController.swift
 //  Navigation
 //
-//  Created by Alexander Batyshev on 25.11.2022.
+//  Created by Alexander Batyshev on 03.12.2022.
 //
 
 import UIKit
@@ -14,7 +14,6 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray
-
         self.title = "Profile"
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
@@ -28,4 +27,3 @@ class ProfileViewController: UIViewController {
         profileHeaderView.frame = self.view.frame
     }
 }
-
