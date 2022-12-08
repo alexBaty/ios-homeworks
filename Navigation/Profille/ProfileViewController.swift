@@ -24,6 +24,7 @@ class ProfileViewController: UIViewController {
         self.view.addSubview(profileHeaderView)
         createProfileViewConstraints() // +
         self.view.addSubview(createButton()) // +
+        hideKeyboardWhenTappedAround() // +
     }
 
     override func viewWillLayoutSubviews() {
@@ -62,4 +63,14 @@ extension ProfileViewController {
 
             return button
         }
+
+    func hideKeyboardWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ProfileViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

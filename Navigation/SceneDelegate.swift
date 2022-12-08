@@ -17,15 +17,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         return feedViewController
     }
 
-    func createProfileViewController() -> UINavigationController {
-        let profileViewController = UINavigationController(rootViewController: ProfileViewController())
-        profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "menucard"), tag: 1)
-        return profileViewController
+    func createLogInViewController() -> UINavigationController {
+        let logInViewController = UINavigationController(rootViewController: LogInViewController())
+        logInViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "menucard"), tag: 1)
+        logInViewController.navigationBar.isHidden = true
+        return logInViewController
     }
 
     func createTabBar() -> UITabBarController {
         let tabBar = UITabBarController()
-        tabBar.viewControllers = [createFeedViewController(), createProfileViewController()]
+        tabBar.viewControllers = [createFeedViewController(), createLogInViewController()]
         tabBar.tabBar.backgroundColor = .secondarySystemBackground
         return tabBar
     }
