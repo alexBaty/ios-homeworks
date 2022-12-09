@@ -17,6 +17,7 @@
 		E97BE604293144B6007E3099 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E97BE603293144B6007E3099 /* Assets.xcassets */; };
 		E97BE607293144B6007E3099 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E97BE605293144B6007E3099 /* LaunchScreen.storyboard */; };
 		E9CEBADE293A3D6500D5C4FA /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9CEBADD293A3D6500D5C4FA /* ProfileHeaderView.swift */; };
+		E9D4F5D129425824003CE36F /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9D4F5D029425824003CE36F /* LogInViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		E97BE606293144B6007E3099 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E97BE608293144B6007E3099 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E9CEBADD293A3D6500D5C4FA /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		E9D4F5D029425824003CE36F /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 			children = (
 				E9CEBADD293A3D6500D5C4FA /* ProfileHeaderView.swift */,
 				E918683E293B3E7E00AB10ED /* ProfileViewController.swift */,
+				E9D4F5D029425824003CE36F /* LogInViewController.swift */,
 			);
 			path = Profille;
 			sourceTree = "<group>";
@@ -159,6 +162,7 @@
 			files = (
 				E9249C602932967F00595637 /* PostViewController.swift in Sources */,
 				E97BE5FF293144B4007E3099 /* ViewController.swift in Sources */,
+				E9D4F5D129425824003CE36F /* LogInViewController.swift in Sources */,
 				E97BE5FB293144B4007E3099 /* AppDelegate.swift in Sources */,
 				E92AAB7B2933DB9E004C9D94 /* InfoViewController.swift in Sources */,
 				E912032C2931492C00D66AD5 /* FeedViewController.swift in Sources */,
