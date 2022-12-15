@@ -9,6 +9,8 @@ import UIKit
 
 class ProfileHeaderView: UIView {
 
+    static let headerID = "ProfileHeaderView"
+
     let fullNameLabel: UILabel = {
         var fullNameLabel = UILabel(frame: CGRect(x: 170, y: 130, width: 200, height: 20))
         fullNameLabel.font = UIFont.systemFont(ofSize: 18, weight: .bold)
@@ -63,6 +65,7 @@ class ProfileHeaderView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        self.backgroundColor = .systemGray6
         getSubviews()
         createProfileHeaderViewConstraints() // +
     }
