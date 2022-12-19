@@ -28,7 +28,7 @@ class ProfileViewController: UIViewController {
     private var dataSource: [ModelPost] = [postOne, postTwo, postThree, postFour]
 
     let tableView: UITableView = {
-        var tableView = UITableView()
+        var tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .systemGray6
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -40,12 +40,13 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: PostTableViewCell.cellID)
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.cellID)
         view.addSubview(tableView)
-        createTableViewconstraints()
+        createTableViewConstraints()
         hideKeyboardWhenTappedAround()
     }
 
-   private func createTableViewconstraints() {
+    private func createTableViewConstraints() {
 
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 0),
@@ -64,30 +65,51 @@ class ProfileViewController: UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+
+    @objc func goToPhotos() {
+        let photosViewController = PhotosViewController()
+        photosViewController.navigationItem.title = "Photo Gallery"
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.pushViewController(photosViewController, animated: true)
+    }
 }
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        dataSource.count
+        if section == 0 {
+            return 1
+        } else {
+            return dataSource.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.cellID, for: indexPath) as! PostTableViewCell
-        cell.authorCell.text = dataSource[indexPath.item].author
-        cell.imageCell.image = UIImage(named: dataSource[indexPath.item].image)
-        cell.descriptionCell.text = dataSource[indexPath.item].description
-        cell.likesCell.text = "Likes:" + " " + "\(dataSource[indexPath.item].likes)"
-        cell.viewsCell.text = "Views:" + " " + "\(dataSource[indexPath.item].views)"
-        return cell
+        if indexPath.section == 0 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.cellID, for: indexPath) as! PhotosTableViewCell
+            cell.buttonGo.addTarget(self, action: #selector(goToPhotos), for: .touchUpInside)
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.cellID, for: indexPath) as! PostTableViewCell
+            cell.authorCell.text = dataSource[indexPath.item].author
+            cell.imageCell.image = UIImage(named: dataSource[indexPath.item].image)
+            cell.descriptionCell.text = dataSource[indexPath.item].description
+            cell.likesCell.text = "Likes:" + " " + "\(dataSource[indexPath.item].likes)"
+            cell.viewsCell.text = "Views:" + " " + "\(dataSource[indexPath.item].views)"
+            return cell
+        }
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = ProfileHeaderView()
-        return headerView
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        220
+        if section == 0 {
+            let headerView = ProfileHeaderView()
+            return headerView
+        } else {
+            return nil
+        }
     }
 }
