@@ -110,6 +110,7 @@ extension ProfileHeaderView {
             setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
             setStatusButton.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
             setStatusButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -16),
+            setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50),
             avatarImageView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
             avatarImageView.leftAnchor.constraint(equalTo: self.leftAnchor, constant: 16),
