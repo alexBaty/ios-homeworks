@@ -9,8 +9,6 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    private var dataSource: [ModelPost] = [postOne, postTwo, postThree, postFour]
-
     let tableView: UITableView = {
         var tableView = UITableView(frame: .zero, style: .grouped)
         tableView.backgroundColor = .systemGray6
@@ -79,11 +77,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: PostTableViewCell.cellID, for: indexPath) as! PostTableViewCell
-            cell.authorCell.text = dataSource[indexPath.item].author
-            cell.imageCell.image = UIImage(named: dataSource[indexPath.item].image)
-            cell.descriptionCell.text = dataSource[indexPath.item].description
-            cell.likesCell.text = "Likes:" + " " + "\(dataSource[indexPath.item].likes)"
-            cell.viewsCell.text = "Views:" + " " + "\(dataSource[indexPath.item].views)"
+            cell.createTable(indexPath.row)
             return cell
         }
     }

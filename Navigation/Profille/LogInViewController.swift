@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LogInViewController: UIViewController, UIScrollViewDelegate {
+class LogInViewController: UIViewController, UIScrollViewDelegate, UITextFieldDelegate {
 
     let logInImageView: UIImageView = {
         var logInImageView = UIImageView(frame: .zero)
@@ -33,6 +33,61 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
         return scrollView
     }()
 
+    let logInView: UIStackView = {
+        var logInView = UIStackView(frame: .zero)
+        logInView.axis = .vertical
+        logInView.distribution = .fillEqually
+        logInView.layer.cornerRadius = 10
+        logInView.layer.masksToBounds = true
+        logInView.layer.borderColor = UIColor.lightGray.cgColor
+        logInView.layer.borderWidth = 0.5
+        logInView.translatesAutoresizingMaskIntoConstraints = false
+        return logInView
+    }()
+
+    lazy var logInTextField: UITextField = {
+        var logInTextField = UITextField(frame: .zero)
+        logInTextField.layer.borderColor = UIColor.lightGray.cgColor
+        logInTextField.placeholder = "Email or phone"
+        logInTextField.layer.borderWidth = 0.5
+        logInTextField.backgroundColor = .systemGray6
+        logInTextField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        logInTextField.textColor = .black
+        logInTextField.tintColor = .tintColor
+        logInTextField.autocapitalizationType = .none
+        logInTextField.setLeftPaddingPoints(10)
+        logInTextField.clearButtonMode = .whileEditing
+        logInTextField.delegate = self
+        logInTextField.tag = 1
+        return logInTextField
+    }()
+
+    lazy var passwordTextField: UITextField = {
+        var passwordTextField = UITextField(frame: .zero)
+        passwordTextField.placeholder = "Password"
+        passwordTextField.backgroundColor = .systemGray6
+        passwordTextField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        passwordTextField.textColor = .black
+        passwordTextField.tintColor = .tintColor
+        passwordTextField.autocapitalizationType = .none
+        passwordTextField.setLeftPaddingPoints(10)
+        passwordTextField.clearButtonMode = .whileEditing
+        passwordTextField.isSecureTextEntry = true
+        passwordTextField.tag = 2
+        passwordTextField.delegate = self
+        return passwordTextField
+    }()
+
+    let errorLabel: UILabel = {
+        var errorLabel = UILabel(frame: .zero)
+        errorLabel.text = "The number of characters is less than 4"
+        errorLabel.textColor = .red
+        errorLabel.font = UIFont.systemFont(ofSize: 13)
+        errorLabel.isHidden = true
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        return errorLabel
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -40,7 +95,11 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
         scrollView.addSubview(logInImageView)
         scrollView.addSubview(logInButton)
         logInButton.addTarget(self, action: #selector(goToProfile), for: .touchUpInside)
-        scrollView.addSubview(createLogInView())
+        scrollView.addSubview(logInView)
+        logInView.addArrangedSubview(logInTextField)
+        logInView.addArrangedSubview(passwordTextField)
+        scrollView.addSubview(errorLabel)
+        passwordTextField.addTarget(self, action: #selector(textFieldCheckPassword), for: .editingChanged)
         createLogInViewConstraints()
         self.scrollView.delegate = self
     }
@@ -55,55 +114,6 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
         NotificationCenter.default.removeObserver(self)
     }
 
-    func createLogInView() -> UIStackView {
-        let logInView = UIStackView()
-        logInView.axis = .vertical
-        logInView.distribution = .fillEqually
-        logInView.layer.cornerRadius = 10
-        logInView.layer.masksToBounds = true
-        logInView.layer.borderColor = UIColor.lightGray.cgColor
-        logInView.layer.borderWidth = 0.5
-        logInView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(logInView)
-
-        let logInTextField = UITextField()
-        logInTextField.layer.borderColor = UIColor.lightGray.cgColor
-        logInTextField.placeholder = "Email or phone"
-        logInTextField.layer.borderWidth = 0.5
-        logInTextField.backgroundColor = .systemGray6
-        logInTextField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        logInTextField.textColor = .black
-        logInTextField.tintColor = .tintColor
-        logInTextField.autocapitalizationType = .none
-        logInTextField.setLeftPaddingPoints(10)
-        logInTextField.clearButtonMode = .whileEditing
-
-        let passwordTextField = UITextField()
-        passwordTextField.placeholder = "Password"
-        passwordTextField.backgroundColor = .systemGray6
-        passwordTextField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        passwordTextField.textColor = .black
-        passwordTextField.tintColor = .tintColor
-        passwordTextField.autocapitalizationType = .none
-        passwordTextField.setLeftPaddingPoints(10)
-        passwordTextField.clearButtonMode = .whileEditing
-        passwordTextField.isSecureTextEntry = true
-
-        logInView.addArrangedSubview(logInTextField)
-        logInView.addArrangedSubview(passwordTextField)
-
-        let safeLayout = self.view.safeAreaLayoutGuide
-
-        NSLayoutConstraint.activate([
-            logInView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 340),
-            logInView.leftAnchor.constraint(equalTo: safeLayout.leftAnchor, constant: 16),
-            logInView.rightAnchor.constraint(equalTo: safeLayout.rightAnchor, constant: -16),
-            logInView.heightAnchor.constraint(equalToConstant: 100)
-        ])
-
-        return logInView
-    }
-
     func createLogInViewConstraints() {
 
         let safeLayout = self.view.safeAreaLayoutGuide
@@ -113,19 +123,57 @@ class LogInViewController: UIViewController, UIScrollViewDelegate {
             logInImageView.heightAnchor.constraint(equalToConstant: 100),
             logInImageView.widthAnchor.constraint(equalToConstant: 100),
             logInImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logInButton.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 456),
+            logInButton.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 464),
             logInButton.leadingAnchor.constraint(equalTo: safeLayout.leadingAnchor, constant: 16),
             logInButton.trailingAnchor.constraint(equalTo: safeLayout.trailingAnchor, constant: -16),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
             scrollView.heightAnchor.constraint(equalTo: safeLayout.heightAnchor),
             scrollView.widthAnchor.constraint(equalTo: safeLayout.widthAnchor),
-            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            logInView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 340),
+            logInView.leftAnchor.constraint(equalTo: safeLayout.leftAnchor, constant: 16),
+            logInView.rightAnchor.constraint(equalTo: safeLayout.rightAnchor, constant: -16),
+            logInView.heightAnchor.constraint(equalToConstant: 100),
+            errorLabel.leftAnchor.constraint(equalTo: safeLayout.leftAnchor, constant: 16),
+            errorLabel.rightAnchor.constraint(equalTo: safeLayout.rightAnchor, constant: -16),
+            errorLabel.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 444)
         ])
     }
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        logInTextField.shakeField()
+        passwordTextField.shakeField()
+        logInTextField.changeColor(logInTextField)
+        passwordTextField.changeColor(passwordTextField)
+        return false
+    }
+
     @objc func goToProfile() {
-        let profileViewController = ProfileViewController()
-        self.navigationController?.pushViewController(profileViewController, animated: true)
+        let logIn = logInTextField.text
+        let password = passwordTextField.text
+        let alertMessage = UIAlertController(title: "Alert", message: "Wrong logIn or password", preferredStyle: .alert)
+
+        if logIn == "a@a.com" && password == "1111" {
+            let profileViewController = ProfileViewController()
+            self.navigationController?.pushViewController(profileViewController, animated: true)
+        } else {
+            logInTextField.shakeField()
+            passwordTextField.shakeField()
+            logInTextField.changeColor(logInTextField)
+            passwordTextField.changeColor(passwordTextField)
+            alertMessage.addAction(UIAlertAction(title: "OK", style: .default))
+            self.present(alertMessage, animated: true)
+        }
+    }
+
+    @objc func textFieldCheckPassword() {
+        if let textCount = passwordTextField.text?.count {
+            if textCount < 4 && textCount > 0 {
+                errorLabel.isHidden = false
+            } else {
+                errorLabel.isHidden = true
+            }
+        }
     }
 }
 
@@ -139,6 +187,28 @@ extension UITextField {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: amount, height: self.frame.size.height))
         self.rightView = paddingView
         self.rightViewMode = .always
+    }
+
+    func shakeField() {
+        let shakeAnimation = CABasicAnimation(keyPath: "position")
+        shakeAnimation.duration = 0.05
+        shakeAnimation.repeatCount = 6
+        shakeAnimation.autoreverses = true
+        shakeAnimation.fromValue = CGPoint(x: self.center.x - 4, y: self.center.y)
+        shakeAnimation.toValue = CGPoint(x: self.center.x + 4, y: self.center.y)
+        layer.add(shakeAnimation, forKey: "position")
+    }
+
+    func changeColor(_ textfield: UITextField) {
+        UIView.animate(withDuration: 0.5) {
+            textfield.backgroundColor = .red
+            textfield.alpha = 0.3
+        } completion: { _ in
+            UIView.animate(withDuration: 0.5) {
+                textfield.backgroundColor = .systemGray6
+                textfield.alpha = 1
+            }
+        }
     }
 }
 
