@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ProfileHeaderView: UIView {
+class ProfileHeaderView: UIView, UITextFieldDelegate {
 
     static let headerID = "ProfileHeaderView"
 
@@ -51,7 +51,7 @@ class ProfileHeaderView: UIView {
         return avatarImageView
     }()
 
-    let statusTextField: UITextField = {
+    lazy var statusTextField: UITextField = {
         var statusTextField = UITextField(frame: CGRect(x: 170, y: 210, width: 200, height: 40))
         statusTextField.layer.borderColor = UIColor.black.cgColor
         statusTextField.layer.borderWidth = 1
@@ -61,6 +61,7 @@ class ProfileHeaderView: UIView {
         statusTextField.textColor = .black
         statusTextField.textAlignment = .center
         statusTextField.clearButtonMode = .whileEditing
+        statusTextField.delegate = self
         return statusTextField
     }()
 
@@ -101,7 +102,12 @@ class ProfileHeaderView: UIView {
         addSubview(setStatusButton)
         setStatusButton.addAction(UIAction(handler: {_ in
             print(self.statusLabel.text ?? "")
-            self.statusLabel.text = self.statusText
+            if self.statusText == "" {
+                self.statusTextField.shakeField()
+                self.statusTextField.changeColor(self.statusTextField)
+            } else {
+                self.statusLabel.text = self.statusText
+            }
         }), for: .touchUpInside)
         addSubview(avatarImageView)
         statusTextField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
@@ -147,6 +153,12 @@ class ProfileHeaderView: UIView {
                 avatarImageView.bounds = avatarBounds
             }
         }
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        statusTextField.shakeField()
+        statusTextField.changeColor(statusTextField)
+        return false
     }
 }
 

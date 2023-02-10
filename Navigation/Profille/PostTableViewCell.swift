@@ -10,6 +10,8 @@ import UIKit
 class PostTableViewCell: UITableViewCell {
 
     static let cellID = "PostTableViewCell"
+    var cellIndex = 0
+    public var flag = true
 
     let authorCell: UILabel = {
         var authorCell = UILabel(frame: .zero)
@@ -36,11 +38,13 @@ class PostTableViewCell: UITableViewCell {
         return imageCell
     }()
 
-    let likesCell:UILabel = {
+    lazy var likesCell:UILabel = {
         var likesCell = UILabel(frame: .zero)
         likesCell.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         likesCell.textColor = .black
         likesCell.translatesAutoresizingMaskIntoConstraints = false
+        likesCell.isUserInteractionEnabled = true
+        likesCell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(plusLike)))
         return likesCell
     }()
 
@@ -84,5 +88,41 @@ class PostTableViewCell: UITableViewCell {
             viewsCell.topAnchor.constraint(equalTo: descriptionCell.bottomAnchor, constant: 16),
             viewsCell.rightAnchor.constraint(equalTo: rightAnchor, constant: -16)
         ])
+    }
+
+    func createTable(_ index: Int, _ flag: Bool = true) {
+
+        cellIndex = index
+
+        if flag == true {
+            imageCell.isUserInteractionEnabled = true
+            imageCell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(showPost)))
+        }
+
+        authorCell.text = dataSource[index].author
+        imageCell.image = UIImage(named: dataSource[index].image)
+        descriptionCell.text = dataSource[index].description
+        likesCell.text = "Likes:" + " " + "\(dataSource[index].likes)"
+        viewsCell.text = "Views:" + " " + "\(dataSource[index].views)"
+    }
+
+    @objc func plusLike() {
+        dataSource[cellIndex].likes += 1
+        likesCell.text = "Likes:" + " " + "\(dataSource[cellIndex].likes)"
+    }
+
+    @objc func showPost() {
+        dataSource[cellIndex].views += 1
+        viewsCell.text = "Views:" + " " + "\(dataSource[cellIndex].views)"
+
+        if let navigationController = ((superview as? UITableView)?.dataSource as? UIViewController)?.navigationController {
+            let postDetailVC = PostDetailViewController()
+            postDetailVC.cellIndex = cellIndex
+            postDetailVC.flag = false
+            let postNC = UINavigationController(rootViewController: postDetailVC)
+            postNC.modalPresentationStyle = .fullScreen
+            postNC.modalTransitionStyle = .coverVertical
+            navigationController.present(postNC, animated: true)
+        }
     }
 }
